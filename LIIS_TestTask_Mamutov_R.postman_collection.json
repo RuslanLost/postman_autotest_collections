@@ -1,0 +1,3082 @@
+{
+	"info": {
+		"_postman_id": "5f555f17-1ee0-4b8f-9c5f-fc0fa72ae96c",
+		"name": "LIIS_TestTask_Mamutov_R",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23303926"
+	},
+	"item": [
+		{
+			"name": "Positive flow autotest",
+			"item": [
+				{
+					"name": "v.1",
+					"item": [
+						{
+							"name": "Posts",
+							"item": [
+								{
+									"name": "sign-in",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Успешный POST запрос\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"pm.test(\"CREATED\", function () {",
+													"    pm.response.to.have.status(\"CREATED\");",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains password\"] = responseBody.has('password') ;",
+													"tests[\"response contains username\"] = responseBody.has('username') ;",
+													"tests[\"response contains email\"] = responseBody.has('email') ;",
+													"pm.collectionVariables.get(\"username\");",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"username\", jsonData.username);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"email\", jsonData.email);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"id\", jsonData.id);",
+													"pm.test(\"username in request = username in response\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.username).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"pm.test(\"email in request = email in response\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"username\", \"{{$randomFullName}}\");",
+													"pm.collectionVariables.set(\"email\", \"{{$randomEmail}}\");",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"{{username}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/sign-in",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"sign-in"
+											]
+										},
+										"description": "Required fields: username, email, password"
+									},
+									"response": []
+								},
+								{
+									"name": "Get posts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"ID\"] = responseBody.has('id') ;"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/posts",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Post post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"pm.test(\"CREATED\", function () {",
+													"    pm.response.to.have.status(\"CREATED\");",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains Title\"] = responseBody.has('title') ;",
+													"tests[\"response contains Content\"] = responseBody.has('content') ;",
+													"tests[\"response contains Author\"] = responseBody.has('author') ;",
+													"tests[\"response contains DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"response contains ID\"] = responseBody.has('id') ;",
+													"pm.test(\"author in response = author in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"});",
+													"pm.test(\"content in response = content in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													"pm.test(\"title in response = title in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"post_id\", jsonData.id);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"current_datetime\", jsonData.publication_datetime);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "password",
+													"value": "{{password}}",
+													"type": "string"
+												},
+												{
+													"key": "username",
+													"value": "{{username}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{username}}\",\n    \"content\": \"{{email}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/posts",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains Title\"] = responseBody.has('title') ;",
+													"tests[\"response contains Content\"] = responseBody.has('content') ;",
+													"tests[\"response contains Author\"] = responseBody.has('author') ;",
+													"tests[\"response contains DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"response contains ID\"] = responseBody.has('id') ;",
+													"pm.test(\"correct author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"});",
+													"pm.test(\"correct content\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													"pm.test(\"correct title\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"pm.test(\" correct DateTime\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.publication_datetime).to.eql(pm.collectionVariables.get('current_datetime'));",
+													"});",
+													"pm.test(\"correct post ID\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get('post_id'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/post/{{post_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Put post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"the message is updated\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.message).to.eql(\"updated\");",
+													"});",
+													"pm.test(\"type is succes\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.type).to.eql(\"success\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{email}}\",\n    \"content\": \"{{username}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/post/{{post_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Comments",
+							"item": [
+								{
+									"name": "Get comments",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/comments",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"comments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Post comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"ID\"] = responseBody.has('id') ;",
+													"",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_title\", jsonData.title);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_id\", jsonData.id);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_datetime\", jsonData.publication_datetime);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_author\", jsonData.author);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_content\", jsonData.content);",
+													"",
+													"pm.test(\"content in response = content in request\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(\"Addios\");",
+													"});",
+													"pm.test(\"title in response = title in request\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(\"Triniti\");",
+													"});",
+													"pm.test(\"correct post ID\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.post).to.eql(pm.collectionVariables.get('post_id'));",
+													"    });",
+													"    pm.test(\"correct author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"    });",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"Triniti\",\n    \"content\": \"Addios\",\n    \"post\": {{post_id}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/comments",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"comments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;",
+													"pm.test(\"true author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('comment_author'));",
+													"});",
+													"pm.test(\"correct title\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('comment_title'));",
+													"});",
+													"pm.test(\"correct content\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('comment_content'));",
+													"});",
+													"pm.test(\"correct comment id\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get('comment_id'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Put comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"the message is updated\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.message).to.eql(\"updated\");",
+													"});",
+													"pm.test(\"type is succes\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.type).to.eql(\"success\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"yourdsadsadsafname\",\n    \"content\": \"yournewpfasdsadasdsadsadontent\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v1",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v1/api/gdekasper@icloud.com/post/{{post_id}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v1",
+										"api",
+										"gdekasper@icloud.com",
+										"post",
+										"{{post_id}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "v.2",
+					"item": [
+						{
+							"name": "Posts",
+							"item": [
+								{
+									"name": "sign-in",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"pm.collectionVariables.set(\"username\", \"{{$randomFullName}}\");",
+													"pm.collectionVariables.set(\"email\", \"{{$randomEmail}}\");"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Успешный POST запрос\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"pm.test(\"CREATED\", function () {",
+													"    pm.response.to.have.status(\"CREATED\");",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains password\"] = responseBody.has('password') ;",
+													"tests[\"response contains username\"] = responseBody.has('username') ;",
+													"tests[\"response contains email\"] = responseBody.has('email') ;",
+													"pm.collectionVariables.get(\"username\");",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"username\", jsonData.username);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"email\", jsonData.email);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"id\", jsonData.id);",
+													"pm.test(\"username in request = username in response\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.username).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"pm.test(\"email in request = email in response\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.email).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"username\": \"{{username}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"sign-in"
+											]
+										},
+										"description": "Required fields: username, email, password.\nOptional fields: first_name, middle_name, last_name."
+									},
+									"response": []
+								},
+								{
+									"name": "Get posts pagination",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"ID\"] = responseBody.has('id') ;"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts?page=1",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"posts"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get posts",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"",
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"ID\"] = responseBody.has('id') ;"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Post post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"pm.test(\"CREATED\", function () {",
+													"    pm.response.to.have.status(\"CREATED\");",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains Title\"] = responseBody.has('title') ;",
+													"tests[\"response contains Content\"] = responseBody.has('content') ;",
+													"tests[\"response contains Author\"] = responseBody.has('author') ;",
+													"tests[\"response contains DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"response contains ID\"] = responseBody.has('id') ;",
+													"pm.test(\"author in response = author in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"});",
+													"pm.test(\"content in response = content in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													"pm.test(\"title in response = title in request\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"post_id\", jsonData.id);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"current_datetime\", jsonData.publication_datetime);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{username}}\",\n    \"content\": \"{{email}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"posts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"response contains Title\"] = responseBody.has('title') ;",
+													"tests[\"response contains Content\"] = responseBody.has('content') ;",
+													"tests[\"response contains Author\"] = responseBody.has('author') ;",
+													"tests[\"response contains DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"response contains ID\"] = responseBody.has('id') ;",
+													"pm.test(\"correct author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"});",
+													"pm.test(\"correct content\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('email'));",
+													"});",
+													"pm.test(\"correct title\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('username'));",
+													"});",
+													"pm.test(\" correct DateTime\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.publication_datetime).to.eql(pm.collectionVariables.get('current_datetime'));",
+													"});",
+													"pm.test(\"correct post ID\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get('post_id'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/post/{{post_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Put post",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"the message is updated\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.message).to.eql(\"updated\");",
+													"});",
+													"pm.test(\"type is succes\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.type).to.eql(\"success\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"name\": \"{{email}}\",\n    \"content\": \"{{username}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/post/{{post_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"post",
+												"{{post_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Comments",
+							"item": [
+								{
+									"name": "Post comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;",
+													"",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_title\", jsonData.title);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_id\", jsonData.id);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_datetime\", jsonData.publication_datetime);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_author\", jsonData.author);",
+													"var jsonData = JSON.parse(responseBody);",
+													"pm.collectionVariables.set(\"comment_content\", jsonData.content);",
+													"",
+													"pm.test(\"content in response = content in request\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(\"Это было очень не просто?! 1,2,3 раза, TREE RAZA!!!\");",
+													"});",
+													"pm.test(\"title in response = title in request\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(\"Азазель и Бегемот\");",
+													"});",
+													"pm.test(\"correct post ID\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.post).to.eql(pm.collectionVariables.get('post_id'));",
+													"    });",
+													"    pm.test(\"correct author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('id'));",
+													"    });",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"Азазель и Бегемот\",\n    \"text\": \"Это было очень не просто?! 1,2,3 раза, TREE RAZA!!!\",\n    \"post\": {{post_id}}\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"comments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get comments",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"comments"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;",
+													"pm.test(\"correct author\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.author).to.eql(pm.collectionVariables.get('comment_author'));",
+													"});",
+													"pm.test(\"correct title\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.title).to.eql(pm.collectionVariables.get('comment_title'));",
+													"});",
+													"pm.test(\"correct content\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.content).to.eql(pm.collectionVariables.get('comment_content'));",
+													"});",
+													"pm.test(\"correct id\", function () {",
+													"     var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.id).to.eql(pm.collectionVariables.get('comment_id'));",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Get comments pagination",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"var json1 = JSON.parse(responseBody);",
+													"tests[\"Title\"] = responseBody.has('title') ;",
+													"tests[\"Content\"] = responseBody.has('content') ;",
+													"tests[\"Author\"] = responseBody.has('author') ;",
+													"tests[\"DateTime\"] = responseBody.has('publication_datetime') ;",
+													"tests[\"Author\"] = responseBody.has('id') ;",
+													"tests[\"Post\"] = responseBody.has('id') ;",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/<tester>/comments?page=1",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"<tester>",
+												"comments"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Put comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"pm.test(\"the message is updated\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.message).to.eql(\"updated\");",
+													"});",
+													"pm.test(\"type is succes\", function () {",
+													"    var jsonData = pm.response.json();",
+													"    pm.expect(jsonData.type).to.eql(\"success\");",
+													"});",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"title\": \"{{$randomLoremWords}}\",\n    \"text\": \"{{$randomLoremWord}}\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete comment",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 204\", function () {",
+													"    pm.response.to.have.status(204);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comment/{{comment_id}}",
+											"protocol": "https",
+											"host": [
+												"hr",
+												"recruit",
+												"liis",
+												"su"
+											],
+											"path": [
+												"qa0",
+												"v2",
+												"api",
+												"gdekasper@icloud.com",
+												"comment",
+												"{{comment_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Delete post",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 204\", function () {",
+											"    pm.response.to.have.status(204);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "yourpassword",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "yourusername",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/post/{{post_id}}",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"post",
+										"{{post_id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Grant user admin role",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {",
+											"    pm.response.to.have.status(200);",
+											"});",
+											"pm.test(\"the message is updated\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.message).to.eql(\"updated\");",
+											"});",
+											"pm.test(\"type is succes\", function () {",
+											"    var jsonData = pm.response.json();",
+											"    pm.expect(jsonData.type).to.eql(\"success\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "password",
+											"value": "123",
+											"type": "string"
+										},
+										{
+											"key": "username",
+											"value": "admin",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"user_id\": {{id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/make_admin",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"make_admin"
+									]
+								},
+								"description": "Grant user admin role so that he can put and delete foreign entities."
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Negative tests",
+			"item": [
+				{
+					"name": "Sign-in",
+					"item": [
+						{
+							"name": "sign-in no username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n \n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"thepassword\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Sign-in empty username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: invalid username\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"invalid username\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"thepasswonrd\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in only spaces in username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: invalid login\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"invalid username\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"                             \",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"thepassword\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in used username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: user with this username or email already exists\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"User with this username or email already exists\");",
+											"});",
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"username\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"thepassword\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in no password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"username\",\n    \"email\": \"email@email.to\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								},
+								"description": "Required fields: username, email, password"
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in empty password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: invalid password\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"invalid password\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"{{$randomUserName}}\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in no email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"misterGoy\",\n    \"password\": \"zara\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in empty email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: invalid email\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"invalid email\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"{{$randomUserName}}\",\n    \"email\": \"\",\n    \"password\": \"thepassword\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in bad email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: invalid email\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"invalid email\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"{{$randomUserName}}\",\n    \"email\": \"?\",\n    \"password\": \"thepassword\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in used email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: user with this username already exists\",() => {",
+											"    pm.expect(pm.response.text()).to.include(\"User with this username or email already exists\");",
+											"});",
+											"pm.test(\"Status code is 409\", function () {",
+											"    pm.response.to.have.status(409);",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"{{$randomUserName}}\",\n    \"email\": \"email\",\n    \"password\": \"thepasswosrd\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in no username no email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"password\": \"thepasswosrd\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in no password no username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"email\": \"email\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in no password no email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n    \"email\": \"email\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long username",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890123456789012345678901234567890123456789012345678901\",\n    \"email\": \"emaiil\",\n    \"password\": \"thepasswosrd\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long email",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890123456789012345678901234567890123456789012345\",\n    \"email\": \"123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901\",\n    \"password\": \"thepasswosrd\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long password",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890z\",\n    \"email\": \"hjkn\",\n    \"password\": \"123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901123456789012345678901234567890123456789012345678901234567890123456789012345678901\",\n    \"last_name\": \"Petrovich\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long last name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890z\",\n    \"email\": \"hjkn\",\n    \"password\": \"1234567890123456789012345678901234567890123456789012345678901234567890123456789011234567890123456789012345678901231\",\n    \"last_name\": \"Petrovich1234567890123456789012345678901234567890123456789012345678901234567890123456789011234567890123456789012345678901231\",\n    \"middle_name\": \"Alekseev\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long middle name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890z\",\n    \"email\": \"hjkn\",\n    \"password\": \"12345678901890123456789012345678901234567890123456789011234567890123456789012345678901231\",\n    \"last_name\": \"Petrovich1231\",\n    \"middle_name\": \"Alekseev1234567890123456789012345678901234567890123456789012345678901234567890123456789011234567890123456789012345678901231\",\n    \"first_name\": \"Michail\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "sign-in too long first name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\" : \"123456789012345678901234567890z\",\n    \"email\": \"hjkn\",\n    \"password\": \"12345678901890123456789012345678901234567890123456789011234567890123456789012345678901231\",\n    \"last_name\": \"Petrovich1231\",\n    \"middle_name\": \"Alekseev1234561\",\n    \"first_name\": \"Michai12345678901890123456789012345678901234567890123456789011234567890123456789012345678901231l\"\n    \n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/sign-in",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"sign-in"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Posts",
+					"item": [
+						{
+							"name": "Post no title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"content\": \"{{email}}\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post no content",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"1\"\n   \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post no title no content",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post too long title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"123456789012345678901234567890123456789012345678901234567890123456789012345678901\",\n    \"content\": \"wowwowwow\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Too long content",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"1234567890123456789012345678901234567890123456789012345678901234567890123456789\",\n    \"content\": \"1234567890123456789012345678901234567890123456789012345678901234567890123456789wowwowwow12345678901234567890123456789012345678901234567890123456789012345678901234567891234567890123456789012345678901234567890123456789012345678901234567890123456789\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/posts",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"posts"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Comments",
+					"item": [
+						{
+							"name": "comment no title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"text\": \"{{$randomLoremWords}}\",\n    \"post\": {{post_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment no text",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremWord}}\",\n    \"post\": {{post_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment no post id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Message: missing data for required field\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Missing data for required field\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"{{$randomLoremWord}}\",\n    \"text\": \"{{$randomLoremWords}}\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment too long title",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"1234567890123456789012345678901234567890123456789012345678901234567890123456789011\",\n    \"text\": \"{{$randomLoremWords}}\",\n    \"post\": {{post_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "comment too long text",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"message: Longer than maximum length\", function () {",
+											"    pm.expect(pm.response.text()).to.include(\"Longer than maximum length\");",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"123456789012345678901\",\n    \"text\": \"1234567890123456789012345678901234567890123456789012345678901234567890123456789011\",\n    \"post\": {{post_id}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://hr.recruit.liis.su/qa0/v2/api/gdekasper@icloud.com/comments",
+									"protocol": "https",
+									"host": [
+										"hr",
+										"recruit",
+										"liis",
+										"su"
+									],
+									"path": [
+										"qa0",
+										"v2",
+										"api",
+										"gdekasper@icloud.com",
+										"comments"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "username",
+			"value": "1111",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "22222",
+			"type": "string"
+		},
+		{
+			"key": "email",
+			"value": "tr1jkl@hj",
+			"type": "string"
+		},
+		{
+			"key": "id",
+			"value": ""
+		},
+		{
+			"key": "post_id",
+			"value": ""
+		},
+		{
+			"key": "current_datetime",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "publication_datetime",
+			"value": ""
+		},
+		{
+			"key": "comment_title",
+			"value": ""
+		},
+		{
+			"key": "comment_id",
+			"value": ""
+		},
+		{
+			"key": "comment_datetime",
+			"value": ""
+		},
+		{
+			"key": "comment_author",
+			"value": ""
+		},
+		{
+			"key": "comment_content",
+			"value": ""
+		}
+	]
+}
